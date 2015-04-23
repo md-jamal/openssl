@@ -1,0 +1,25 @@
+
+OpenSSL is an Open-Source library for Transport Layer Security and general purpose cryptography.
+
+OpenSSL consists of two separate libraries:libcrypto and libssl. libcrypto is a general purpose cryptography library which can be used alone.libssl is a TLS library which depends on libcrypto.
+
+The OpenSSL crypto library implements a wide range of cryptographic algorithms used in various Internet Standards.libcrypto consists of a number of sub-libraries that implement the individual algorithms.The functionality includes symmetric encryption, public key cryptography and key agreement,certificate handling,cryptographic hash functions and a cryptographic pseudo-random number generator. 
+
+These libraries are used by programs like apache-ssl,telnet-ssl and openssh.
+
+
+To use OpenSSL download the latest source code from their website https://www.openssl.org/ and install
+
+./configure
+make
+make install
+
+
+
+
+#include <openssl/bio.h>
+
+BIO is an I/O abstraction, it hides many of the underlying I/O details from an application.If an application use a BIO for its I/O it can transparently handle SSL connections,unencrypted network connections and file I/O
+
+
+To compile the OpenSSL application we have to pass -lssl and -lcrypto flags to gcc
