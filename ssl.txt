@@ -21,15 +21,24 @@ Certificate Authority:
 	Your driver's license validates your ability to drive.more importantly, however your driver's license is trusted form of identity because your license was issued by a trusted third party.In the same way, a digital certificate is a mere statement of the identity of the body or individual who wishes to be authenticated.A third party outside the server and client pair is needed to validate the certificate.This third party is the Certificate Authority.Reputable certificate authorities,such as verisign are responsible for ensuring the trust of all World wide web entities
 
 
+SSL Handshake steps in Detail:
 
+	An SSL session always begins with an exchange of messages called the SSL handshake.Here is the summary of the steps involved in the SSL handshake.
 
-Client Hello Message:
+	1. The client sends a client hello message that lists the cryptographic capabilities of the client(sorted in client preference order), such as the version of SSL, the cipher suites supported by the client,and the data compression methods supported by the client.The message also contains a 28-byte random number.
 
+	2. The server responds with a server hello message that contains the cryptographic method(cipher suite) and the data compression method selected by the server,the session ID and another random number.The client and server must support at least one common cipher suite, else the handshake fails.The server generally chooses the strongest common cipher suite
 
+	3. The server sends its digital certificate(server uses X.509 v3 digital certificates with SSL).If the server application requires a digital certificate for client authentication, the server sends a "digital certificate request" message. In the "digital certificate request" message, the server sends a list of the types of digital certificates supported and	the distinguished names of acceptable certificate authorities.
 
-Server Hello Message:
+	4. The server sends a server "hello done" message and wait for response.
 
+	5. Upon receipt of the server "hello done" message, the client(the Web browser) verifies the validity of the server's digital certificate and checks that the server's hello parameters are acceptable.
 
-Certificate:
+	6.The client sends a "client key exchange " message. The message contains the pre-master secret, a 46-byte random number used in the generation of the symmetric encryption keys and the message authentication code keys,encrypted with the public key of the server.
 
+	7.The client uses a series of cryptograhic operations to convert the pre-master secret into a master secret, from which all the key material required for the encryption and message authentication is derived.Then the	client sends a "change cipher spec" message to make the server switch to the newly cipher suite. The next message sent by the client("the finished message") is the first message encrypted with the cipher method and keys
 
+	8. The server responds with a "change cipher spec" and the "finished" message of its own
+
+	9. The SSL handshake ends,and encrypted application data can be sent.
