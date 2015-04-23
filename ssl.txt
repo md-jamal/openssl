@@ -1,0 +1,35 @@
+Security Socket Layer
+
+	Originally developed by Netscape communications to allow secure access of a browser to a web server.The main role of SSL is to provide security for Web traffic.Security includes confidentiality, message integrity, and authentication.SSL achieves these elements of security through the use of cryptography,digital signatures, and certificates.
+
+
+Confidentiality:
+
+	SSL protects information through the use of cryptography.Sensitive data is encrypted across public networks to achieve a level of confidentiality.There are two types of data encryption:symmetric cryptography and asymmetric cryptography.Symmetric cryptography uses the same key for encryption and decryption.Asymmetric cryptography use one key for encryption of data,and then separate key for decryption.Key distribution is the inherent weakness in symmetric cryptography and advantage is less cpu intensive.Asymmetric cryptography is up to 1000 times more CPU intensive than symmetric cryptography.But the limitation of key distribution is solved.
+
+Digital Signatures:
+	
+	To ensure message integrity, each message exchanged in SSL has a digital signature attached to it.A digital signature is a message digest (hash of the message) encrypted with public key.Both parties compute the message digest separately and compare the results.Matching results means that the checksum was unaltered during transit,minimizing the chance of a compromised message.
+
+Certificates:
+	
+	How do you trust the person to whom you are sending the message?SSL uses digital certificates to authenticate servers(SSL also achieves an optional authentication for clients).Certificates are digital documents that will attest to the binding of a public key to an individual or other entity.They allow the verification of the claim that a specific public key does,in fact belong to the specified entity.Certificates help prevent someone from impersonating the server with a false key.SSL use X.509 certificates to validate information.X.509 certificates contain information about the entity,including public key and name.
+
+
+Certificate Authority:
+
+	Your driver's license validates your ability to drive.more importantly, however your driver's license is trusted form of identity because your license was issued by a trusted third party.In the same way, a digital certificate is a mere statement of the identity of the body or individual who wishes to be authenticated.A third party outside the server and client pair is needed to validate the certificate.This third party is the Certificate Authority.Reputable certificate authorities,such as verisign are responsible for ensuring the trust of all World wide web entities
+
+
+
+
+Client Hello Message:
+
+
+
+Server Hello Message:
+
+
+Certificate:
+
+
