@@ -1,4 +1,23 @@
 
+
+Confidentiality, message integrity and authentication:
+
+Confidentiality:
+
+	The assurance to an entity that no one can read a particular piece of data except the receiver(s) explicitly intended.If information is read or copied by someone who is not authorized to do so,the result is known as loss of confidentiality.Confidentiality is very important attribute for information types like research data, medical and insurance records.
+
+Integrity:
+
+	The assurance to an entity that data has not been altered(intentionally or unintentionally) between "there" or "here", or between "then" and "now".It is now to whether the data in transit has been modified.Information can be corrupted when it is available on an insecure network. When information is modified in unexpected ways,the result is known as loss of integrity.Unauthorized changes can be made to the information, either by human error or intentional tampering.
+
+Authentication:
+
+	The assurance to one entity that another entity is who he/she claims to be.
+
+	Authentication is proving that a user is whom he or she claims to be.That proof may involve something the user knows(such as password),something the user has (such as smartcard),or something about the user that proves the person's identity(such as fingerprint).Security is strong when the means of authentication cannot later be refuted(prove that is wrong)-the user cannot later deny that he or she performed the activity.This is known as nonrepudiation
+
+
+
 http://www.tldp.org/HOWTO/SSL-Certificates-HOWTO/x64.html
 
 root certificate
