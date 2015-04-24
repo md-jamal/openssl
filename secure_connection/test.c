@@ -87,7 +87,7 @@ SSL_CTX *InitCTX(void)
 	ERR_load_crypto_strings();
 	SSL_load_error_strings();
 	//As we are using SSL V3 protocol we will using this method.This depends on the message you are using
-	method = SSLv3_client_method();
+	method = TLSv1_client_method();
 	ctx = SSL_CTX_new(method);
 
 	if (ctx == NULL) {
