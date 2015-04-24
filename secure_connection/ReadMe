@@ -1,0 +1,59 @@
+Our first task is to set up an context object(an SSL_CTX).This context object is used to do SSL handshakes,reads and writes.
+
+The library's main header files are openssl/ssl.h and openssl/err.h
+
+
+The first thing that an application using the OpenSSL library must do is initialize the internal state of the library.So a simple function call OpenSSL_add_all_algorithms(),after this you can safely call other library functions,and use library structures.
+
+While not required, it is also quite desirable to initialize the library's error handling capabilities and strings.This is done through a one-time call to SSL_load_error_strings().After calling this function,we can then use the ERR_ functions in the library  to change an error number into a human readable message.
+
+	
+Library Structures:
+
+	The four main structures that our application will deal with are SSL_METHOD, SSL_CTX,SSL and BIO.In almost each case, we use pointers to these structures to interact with the OpenSSL Library.
+
+	SSL_METHOD:Indicates the PKI encryption method to use for communication.
+
+	SSL_CTX:Defines the context of a server's communication, including the SSL_METHOD of choice,applicable certificates, and so on
+
+	BIO:	A stackable input/output interface for reading/writing data to/from multiple sources using multiple methods.
+
+	SSL:	This structure maintains the data necessary for the library to operate on a given connection securely. There is a typically 1:1 relationship between the number of SSL *structures in use and the number of open connections.
+
+
+	SSL_METHOD:
+
+		The SSL_METHOD structure is used to set the internal structure of the library for particular types of encryption methods.We will use this structure to indicate to OpenSSL what standard of communication we want to use.The available standards correspond to the various standards for the SSL and TLS standards defined by RFC(SSLv1,SSLv2,SSLv3).Because the value we choose for our SSL_METHOD affects the library at a very basic level, it is important we first define the method we want to use prior to any other connection setup  or initiation.
+
+	SSL_Method *my_ssl_method;
+	my_ssl_method = TLSv1_method();
+
+
+
+	SSL_CTX:
+
+		It is our duty to provide OpenSSL with the information it may need later in the game by giving as much information about our configuration as possible.We provide this information through the SSL_CTX layer.After deciding what method and standard of communication we will use for encryption, we need to provide a context for what we are doing. This context is essentially allows us to provide sane default values for many of the things the OpenSSL library must do.
+
+	The first piece of context we must provide is the SSL_METHOD we have chosen .This base information allows us to create a new context with
+
+	SSL_CTX  *my_ssl_ctx;
+	my_ssl_ctx = SSL_CTX_new(my_ssl_method);
+
+
+	Now that we have created a base context, we can add more information for the library's use. In case of a process that will act as a server, a common piece of information provided is the location of the private key and certificate files.To add this information to our context, we use SSL_CTX_use_certificate_field() and SSL_CTX_use_PrivateKey_file() and provide proper arguments for context,file location and file type.These functions can also be used in client processes to add client certificates when needed.
+
+	The following example shows how to add the file server.pem from the current directory to our previously created context.In this example,the server.pem file is a PEM-encoded file that includes both our private key and the server certificate.
+
+	SSL_CTX_use_certificate_file(my_ssl_ctx,"server.pem",SSL_FILETYPE_PEM);
+	SSL_CTX_use_PrivateKey_file(my_ssl_ctx,"server.pem",SSL_FILETYPE_PEM);
+
+	The context information can also be used in our program to verify information  that may  have been provided by the user.For instance , if the user had provided paths for certificates and key files that were added to the context in our previous example,we would verify that the private key the user gave does in fact match the certificate.The SSL_CTX interface gives us the ability to do this with SSL_CTX_check_private_key().By calling this function and providing our context, we can verify that the private key works and won't fail on us when we communicate later:
+
+	if(SSL_CTX_check_private_key(my_ssl_ctx))
+		//The key works
+	else
+		//The key is wrong
+
+	Also note that all SSL_CTX structures created with SSL_CTX_new() should be released with a call to SSL_CTX_free(SSL_CTX *) when they are no longer of use.
+	
+
