@@ -89,6 +89,7 @@ SSL_CTX *InitCTX(void)
 	//As we are using SSL V3 protocol we will using this method.This depends on the message you are using
 	method = TLSv1_client_method();
 	ctx = SSL_CTX_new(method);
+	
 
 	if (ctx == NULL) {
 		//This function prints the error strings for all errors that OpenSSL has recorded on the stderr file
@@ -105,6 +106,7 @@ void ShowCerts(SSL *ssl)
 	
 	X509 *cert;
 	char *line;
+
 	/*
 	 *	Returns the peer certificate that was received when the Secure Socket layer (SSL) 
 	 *	session was started
@@ -139,7 +141,25 @@ void ShowCerts(SSL *ssl)
 		printf("No Certificate\n");
 }
 
+/*
+ *	Returns 0 on SUCCESS
+ *	Returns Error Value on Failure
+ *
+ */
 
+int verify_certificate(SSL *ssl)
+{
+	/*
+	 *It is used to verify the X509 certificate presented by the peer
+	 */
+	if (SSL_get_verify_result(ssl) != X509_V_OK)
+	{
+		fprintf(stderr, "Certificate Verification Error:%ld\n", SSL_get_verify_result(ssl));
+		return SSL_get_verify_result(ssl);
+	}
+	return 0;
+
+}
 
 int main(int argc, char *argv[])
 {
@@ -158,6 +178,21 @@ int main(int argc, char *argv[])
 	SSL_library_init();//SSL_library_init() registers the available SSL/TLS ciphers and digests.
 
 	ctx = InitCTX();
+
+	/*
+	 *
+	 *  set the default locations for trusted CA certificates.This will be used to verify the
+	 *  server certificates received.
+	 */
+
+	if (! SSL_CTX_load_verify_locations(ctx, "cacert.pem", NULL))
+	{
+		fprintf(stderr, "Error loading certificate\n");
+		ERR_print_errors_fp(stderr);
+		SSL_CTX_free(ctx);
+		abort();	
+	}
+
 
 	server = OpenConnection(argv[1], atoi(argv[2]));
 
@@ -180,8 +215,12 @@ int main(int argc, char *argv[])
 
 	if ( SSL_connect(ssl) == FAIL)
 		ERR_print_errors_fp(stderr);
-	else
-		ShowCerts(ssl);
+	else {
+		if (!verify_certificate(ssl))
+			ShowCerts(ssl);
+		else 
+			printf("We cannot trust this Certificate\n");
+	}
 
 	close(server);
 	SSL_CTX_free(ctx);
