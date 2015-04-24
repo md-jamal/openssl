@@ -105,13 +105,24 @@ void ShowCerts(SSL *ssl)
 	
 	X509 *cert;
 	char *line;
-
+	/*
+	 *	Returns the peer certificate that was received when the Secure Socket layer (SSL) 
+	 *	session was started
+	 */
 	cert = SSL_get_peer_certificate(ssl);	/*Get the Server's Certificate*/
 
 	if ( cert != NULL)
 	{
 		printf("Server Certificates:\n");
 
+		/*
+		 *	X509_Name_oneline prints an ascii version of first argument to
+		 *	second argument(buf).If NULL is passed it dynamically allocates a 
+		 *	buffer and returns it.
+		 *
+		 *	X509_get_subject_name and X509_get_issuer_name is used to get the 
+		 *	subject and issuer name from the certificate
+		 */
 		line = X509_NAME_oneline(X509_get_subject_name(cert), 0, 0);
 		printf("Subject: %s\n", line);
 		free(line);	/*free the malloc'ed string*/
@@ -119,7 +130,9 @@ void ShowCerts(SSL *ssl)
 		line = X509_NAME_oneline(X509_get_issuer_name(cert), 0, 0);
 		printf("Issuer: %s\n", line);
 		free(line);	/*free the malloc'ed string*/
-
+		/*
+		 *	It frees up the X509 structure
+		 */
 		X509_free(cert); /*free the malloc'ed certificate*/	
 	}
 	else
