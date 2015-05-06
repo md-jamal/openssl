@@ -212,5 +212,7 @@ Drawback of Public Key Cryptography:
 	non-repudiation (cannot refuse to accept) is required.
 
 
+What is Truststore?
 
+	File that holds the various certificates of Certifying Authorities.
 
