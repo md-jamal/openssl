@@ -4,17 +4,37 @@ Confidentiality, message integrity and authentication:
 
 Confidentiality:
 
-	The assurance to an entity that no one can read a particular piece of data except the receiver(s) explicitly intended.If information is read or copied by someone who is not authorized to do so,the result is known as loss of confidentiality.Confidentiality is very important attribute for information types like research data, medical and insurance records.
+	The assurance to an entity that no one can read a particular piece
+	of data except the receiver(s) explicitly intended.If information
+	is read or copied by someone who is not authorized to do so,the
+	result is known as loss of confidentiality.Confidentiality is
+	very important attribute for information types like research data,
+	medical and insurance records.
 
 Integrity:
 
-	The assurance to an entity that data has not been altered(intentionally or unintentionally) between "there" or "here", or between "then" and "now".It is now to whether the data in transit has been modified.Information can be corrupted when it is available on an insecure network. When information is modified in unexpected ways,the result is known as loss of integrity.Unauthorized changes can be made to the information, either by human error or intentional tampering.
+	The assurance to an entity that data has not been
+	altered(intentionally or unintentionally) between "there" or
+	"here", or between "then" and "now".It is now to whether the
+	data in transit has been modified.Information can be corrupted
+	when it is available on an insecure network. When information
+	is modified in unexpected ways,the result is known as loss of
+	integrity.Unauthorized changes can be made to the information,
+	either by human error or intentional tampering.
 
 Authentication:
 
-	The assurance to one entity that another entity is who he/she claims to be.
+	The assurance to one entity that another entity is who he/she
+	claims to be.
 
-	Authentication is proving that a user is whom he or she claims to be.That proof may involve something the user knows(such as password),something the user has (such as smartcard),or something about the user that proves the person's identity(such as fingerprint).Security is strong when the means of authentication cannot later be refuted(prove that is wrong)-the user cannot later deny that he or she performed the activity.This is known as nonrepudiation
+	Authentication is proving that a user is whom he or she claims
+	to be.That proof may involve something the user knows(such
+	as password),something the user has (such as smartcard),or
+	something about the user that proves the person's identity(such as
+	fingerprint).Security is strong when the means of authentication
+	cannot later be refuted(prove that is wrong)-the user cannot
+	later deny that he or she performed the activity.This is known
+	as nonrepudiation
 
 
 
@@ -26,95 +46,171 @@ http://www-01.ibm.com/support/knowledgecenter/SSFKSJ_7.1.0/com.ibm.mq.doc/sy1053
 
 Message Digest:
 
-	It is a fixed size numeric representation of the contents of the message,computed by the hash function.Messages size may be variable but message digest size is fixed.Encryption of message digest is nothing but digital signature.
+	It is a fixed size numeric representation of the contents of
+	the message,computed by the hash function.Messages size may be
+	variable but message digest size is fixed.Encryption of message
+	digest is nothing but digital signature.
 
-	So while sending,he generates a message digest and then encrypt the digest using the private key forming an a digital signature.At the receiving side,the signature must be decrypted by using public key will get you the message digest,then it has to compute the message digest of the received message and then compare both of them.If both of them are equal then the message has not been tampered.
+	So while sending,he generates a message digest and then encrypt
+	the digest using the private key forming an a digital signature.At
+	the receiving side,the signature must be decrypted by using public
+	key will get you the message digest,then it has to compute the
+	message digest of the received message and then compare both
+	of them.If both of them are equal then the message has not
+	been tampered.
 
 
 Digital Certificate:
-	
-	It is used to bind a public key to owner.If the public key are sent directly by their owner to another entity,there is a risk that the message could be intercepted and the public key substituted by another.This is known as man in the middle attack.Solution to this problem is to exchange public keys through a trusted third party.Instead of sending your public key directly, you ask the trusted third party to integrate it into a digital certificate.The trusted third party that issues digital certificates is called a Certificate Authority(CA).
+
+	It is used to bind a public key to owner.If the public key
+	are sent directly by their owner to another entity,there is
+	a risk that the message could be intercepted and the public
+	key substituted by another.This is known as man in the middle
+	attack.Solution to this problem is to exchange public keys
+	through a trusted third party.Instead of sending your public
+	key directly, you ask the trusted third party to integrate it
+	into a digital certificate.The trusted third party that issues
+	digital certificates is called a Certificate Authority(CA).
 
 
-	Digital certificate contains specific pieces of information,as determined by X.509 standard.These piece of information include:
-	...Owner Public Key
-	...Owner Distinguished Name
-	...Distinguished Name of the CA that issued the certificate
-	...Date from which the certificate is valid
-	...Expiry date of the certificate.
-	...A serial number:This is a unique identifier assigned by the CA which issued
-	   the certificate.The serial number is unique within the CA which issued the 		   certificate
+	Digital certificate contains specific pieces of information,as
+	determined by X.509 standard.These piece of information include:
+	...Owner Public Key ...Owner Distinguished Name ...Distinguished
+	Name of the CA that issued the certificate ...Date from which
+	the certificate is valid ...Expiry date of the certificate.
+	...A serial number:This is a unique identifier assigned by the
+	CA which issued
+	   the certificate.The serial number is unique within the CA
+	   which issued the		 certificate
 
-	The digital signature in a personal certificate is generated using the private key of the CA which signed that certificate.Anyone who needs to verify the personal certificate can use the CA's public key to do so.The CA's certificate contains its public key.
+	The digital signature in a personal certificate is generated using
+	the private key of the CA which signed that certificate.Anyone
+	who needs to verify the personal certificate can use the CA's
+	public key to do so.The CA's certificate contains its public key.
 
 
 Public Key Infrastructure:
 
-	A PKI  is a system of facilities, policies, and services that supports the use of public key cryptography for authenticating the parties involved in the transaction.
+	A PKI  is a system of facilities, policies, and services that
+	supports the use of public key cryptography for authenticating
+	the parties involved in the transaction.
 
-	PKI typically comprises certificate authorities(CAs) and Registration Authorities(RAs).CAs provides the following services:
-	.Issuing digital certificates
-	.Validating digital certificates
-	.Revoking digital certificates
-	.Distributing public keys
+	PKI typically comprises certificate authorities(CAs) and
+	Registration Authorities(RAs).CAs provides the following services:
+	.Issuing digital certificates .Validating digital certificates
+	.Revoking digital certificates .Distributing public keys
 
-	RAs verify that the information provided when digital certificates are requested.If the RA verifies the information,the CA can issue a digital certificate to the requester.
+	RAs verify that the information provided when digital certificates
+	are requested.If the RA verifies the information,the CA can
+	issue a digital certificate to the requester.
 
 
 Self signed certificate:
 
-	It is a certificate signed with its own private key.In typical PKI arrangements, a digital signature from a certificate authority attests that a particular public key certificate is valid.As the digital certificates is signed by the private key of CA , now suppose if the user wants to check whether the data is correct or not he has to have the public key of the CA which is present in the digital certificate of the CA.This digital certificate will be signed by highest CA.Obviously the highest ranking CA's certificate can't be attested by some other higher CA(their being none),and so that the certificate can only be self-signed.Such certificates are termed as root certificates.
+	It is a certificate signed with its own private key.In typical PKI
+	arrangements, a digital signature from a certificate authority
+	attests that a particular public key certificate is valid.As
+	the digital certificates is signed by the private key of CA ,
+	now suppose if the user wants to check whether the data is
+	correct or not he has to have the public key of the CA which
+	is present in the digital certificate of the CA.This digital
+	certificate will be signed by highest CA.Obviously the highest
+	ranking CA's certificate can't be attested by some other higher
+	CA(their being none),and so that the certificate can only be
+	self-signed.Such certificates are termed as root certificates.
 
-Format of the Certificate and Keys:
-.pem is the format
+Format of the Certificate and Keys: .pem is the format
 
 
 What is the need for CA?
 
-	Consider friends bob and alice.Alice want to encrypt something to Bob.So Alice requires the private key of Bob.Alice searches for the private key of Bob in the internet,and Alice can't be sure that the public key she got is really of Bob.
+	Consider friends bob and alice.Alice want to encrypt something
+	to Bob.So Alice requires the private key of Bob.Alice searches
+	for the private key of Bob in the internet,and Alice can't be
+	sure that the public key she got is really of Bob.
 
-	So Alice takes a different approach:will get the key from someone that can assure her that the key actually belongs to Bob.The CA does exactly that.
+	So Alice takes a different approach:will get the key from someone
+	that can assure her that the key actually belongs to Bob.The CA
+	does exactly that.
 
-	How the CA does that?Simple Bob identifies himself to the CA and send his public key.This way,the CA have something relates the identity of Bob with his public key.
+	How the CA does that?Simple Bob identifies himself to the CA
+	and send his public key.This way,the CA have something relates
+	the identity of Bob with his public key.
 
 
 How Digital Signatures are Made?
 
-	Digital signatures are typically made in a two-step process.The first step is to use a secure hashing algorithm on the data.SHA-2 algorithms would be an example of that.The second step is to encrypt the resulting output with a private signing key.
+	Digital signatures are typically made in a two-step process.The
+	first step is to use a secure hashing algorithm on the data.SHA-2
+	algorithms would be an example of that.The second step is to
+	encrypt the resulting output with a private signing key.
 
-	Thus when a signature is verified by the public key, it decrypts to a hash matching the message.
+	Thus when a signature is verified by the public key, it decrypts
+	to a hash matching the message.
 
 What is the information contained in the certificate?
 
-	A certificate is a small structure which contains, in a conventional format:
-	...an identity(the name of the owner)
-	...a public key(purportedly owned by that person)
-	...a digital signature computed over two previous parts by a certification 		   Authority.	
+	A certificate is a small structure which contains, in a
+	conventional format: ...an identity(the name of the owner)
+	...a public key(purportedly owned by that person) ...a digital
+	signature computed over two previous parts by a certification
+	Authority.
 
 What happens during a HTTPS Web site access?
 
-	During the initial phases of the connection between your browser and the web server, the server sends his certificate.The browser then verifies the certificate against a list of hardcoded CA public key(which have been included courtesy of the browser or operating system vendor).Once the browser has verified the certificate,it knows the public key, and uses it to establish 	the confidential tunnel with the server.
+	During the initial phases of the connection between your browser
+	and the web server, the server sends his certificate.The browser
+	then verifies the certificate against a list of hardcoded CA
+	public key(which have been included courtesy of the browser
+	or operating system vendor).Once the browser has verified the
+	certificate,it knows the public key, and uses it to establish
+	the confidential tunnel with the server.
 
 
 Hash Functions:
 
-	A hash function is a completely public algorithm(no key in that)which mashes bit together in a way which is truly infeasible to untangle.anybody can run the hash function on any data,but finding the data back from the hash output appears to be much beyond our wit(intelligence).The hash output has a fixed size,typically 256 bits(with SHA-256) or 512 bits(with SHA-512).The SHA-* function which output 160 bits is called SHA-1,not SHA-160.
+	A hash function is a completely public algorithm(no key
+	in that)which mashes bit together in a way which is truly
+	infeasible to untangle.anybody can run the hash function on
+	any data,but finding the data back from the hash output appears
+	to be much beyond our wit(intelligence).The hash output has a
+	fixed size,typically 256 bits(with SHA-256) or 512 bits(with
+	SHA-512).The SHA-* function which output 160 bits is called
+	SHA-1,not SHA-160.
 
 What is S in the HTTPS?
 
-	Most people associate HTTPS with SSL(Secure Socket Layer) which was created  by Netscape in the mid 90's. This is becoming less true over time.As Netscape lost market share,SSL's maintenance moved to Internet Engineering Task Force(IETF).The first post Netscape version was re-branded as Transport Layer Security(TLS)1.0 which was released in January 1999.
+	Most people associate HTTPS with SSL(Secure Socket Layer)
+	which was created  by Netscape in the mid 90's. This is
+	becoming less true over time.As Netscape lost market share,SSL's
+	maintenance moved to Internet Engineering Task Force(IETF).The
+	first post Netscape version was re-branded as Transport Layer
+	Security(TLS)1.0 which was released in January 1999.
 
-	By agreement of RFC 2818,Browser knews that https means it should connect to port 443.
+	By agreement of RFC 2818,Browser knews that https means it should
+	connect to port 443.
 
 http://www.moserware.com/2009/06/first-few-milliseconds-of-https.html
 
 
 Drawback of Public Key Cryptography:
 
-	Public Key cryptography has a significant drawback, though it is intolerably slow for large messages. Symmetric key cryptography can usually be done quickly enough to encrypt and decrypt all the network traffic  a machine can manage.Public key cryptography  is generally limited by the speed of the cryptography,not the bandwidth going into the computer,particularly on server machines that need to handle multiple connections simultaneously.
+	Public Key cryptography has a significant drawback, though it is
+	intolerably slow for large messages. Symmetric key cryptography
+	can usually be done quickly enough to encrypt and decrypt all the
+	network traffic  a machine can manage.Public key cryptography
+	is generally limited by the speed of the cryptography,not the
+	bandwidth going into the computer,particularly on server machines
+	that need to handle multiple connections simultaneously.
 
-	As a result,most systems that use public key cryptography, SSL included, use it as little as possible.Generally, public key encryption is used to agree on an encryption key for a symmetric algorithm,and then all further encryption is done using the symmetric algorithm.Therefore, public key encryption algorithms are primarily used in key exchange protocols and when non-repudiation (cannot refuse to accept) is required.
+	As a result,most systems that use public key cryptography,
+	SSL included, use it as little as possible.Generally, public
+	key encryption is used to agree on an encryption key for a
+	symmetric algorithm,and then all further encryption is done
+	using the symmetric algorithm.Therefore, public key encryption
+	algorithms are primarily used in key exchange protocols and when
+	non-repudiation (cannot refuse to accept) is required.
 
-	
+
 
 

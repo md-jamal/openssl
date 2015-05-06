@@ -1,44 +1,115 @@
 Security Socket Layer
 
-	Originally developed by Netscape communications to allow secure access of a browser to a web server.The main role of SSL is to provide security for Web traffic.Security includes confidentiality, message integrity, and authentication.SSL achieves these elements of security through the use of cryptography,digital signatures, and certificates.
+	Originally developed by Netscape communications to allow
+	secure access of a browser to a web server.The main role of
+	SSL is to provide security for Web traffic.Security includes
+	confidentiality, message integrity, and authentication.SSL
+	achieves these elements of security through the use of
+	cryptography,digital signatures, and certificates.
 
 
 Confidentiality:
 
-	SSL protects information through the use of cryptography.Sensitive data is encrypted across public networks to achieve a level of confidentiality.There are two types of data encryption:symmetric cryptography and asymmetric cryptography.Symmetric cryptography uses the same key for encryption and decryption.Asymmetric cryptography use one key for encryption of data,and then separate key for decryption.Key distribution is the inherent weakness in symmetric cryptography and advantage is less cpu intensive.Asymmetric cryptography is up to 1000 times more CPU intensive than symmetric cryptography.But the limitation of key distribution is solved.
+	SSL protects information through the use of cryptography.Sensitive
+	data is encrypted across public networks to achieve a level of
+	confidentiality.There are two types of data encryption:symmetric
+	cryptography and asymmetric cryptography.Symmetric cryptography
+	uses the same key for encryption and decryption.Asymmetric
+	cryptography use one key for encryption of data,and then
+	separate key for decryption.Key distribution is the inherent
+	weakness in symmetric cryptography and advantage is less cpu
+	intensive.Asymmetric cryptography is up to 1000 times more CPU
+	intensive than symmetric cryptography.But the limitation of key
+	distribution is solved.
 
 Digital Signatures:
-	
-	To ensure message integrity, each message exchanged in SSL has a digital signature attached to it.A digital signature is a message digest (hash of the message) encrypted with public key.Both parties compute the message digest separately and compare the results.Matching results means that the checksum was unaltered during transit,minimizing the chance of a compromised message.
+
+	To ensure message integrity, each message exchanged in SSL has a
+	digital signature attached to it.A digital signature is a message
+	digest (hash of the message) encrypted with public key.Both
+	parties compute the message digest separately and compare the
+	results.Matching results means that the checksum was unaltered
+	during transit,minimizing the chance of a compromised message.
 
 Certificates:
-	
-	How do you trust the person to whom you are sending the message?SSL uses digital certificates to authenticate servers(SSL also achieves an optional authentication for clients).Certificates are digital documents that will attest to the binding of a public key to an individual or other entity.They allow the verification of the claim that a specific public key does,in fact belong to the specified entity.Certificates help prevent someone from impersonating the server with a false key.SSL use X.509 certificates to validate information.X.509 certificates contain information about the entity,including public key and name.
+
+	How do you trust the person to whom you are sending the
+	message?SSL uses digital certificates to authenticate servers(SSL
+	also achieves an optional authentication for clients).Certificates
+	are digital documents that will attest to the binding of a public
+	key to an individual or other entity.They allow the verification
+	of the claim that a specific public key does,in fact belong
+	to the specified entity.Certificates help prevent someone
+	from impersonating the server with a false key.SSL use X.509
+	certificates to validate information.X.509 certificates contain
+	information about the entity,including public key and name.
 
 
 Certificate Authority:
 
-	Your driver's license validates your ability to drive.more importantly, however your driver's license is trusted form of identity because your license was issued by a trusted third party.In the same way, a digital certificate is a mere statement of the identity of the body or individual who wishes to be authenticated.A third party outside the server and client pair is needed to validate the certificate.This third party is the Certificate Authority.Reputable certificate authorities,such as verisign are responsible for ensuring the trust of all World wide web entities
+	Your driver's license validates your ability to drive.more
+	importantly, however your driver's license is trusted form
+	of identity because your license was issued by a trusted
+	third party.In the same way, a digital certificate is a mere
+	statement of the identity of the body or individual who wishes
+	to be authenticated.A third party outside the server and client
+	pair is needed to validate the certificate.This third party is
+	the Certificate Authority.Reputable certificate authorities,such
+	as verisign are responsible for ensuring the trust of all World
+	wide web entities
 
 
 SSL Handshake steps in Detail:
 
-	An SSL session always begins with an exchange of messages called the SSL handshake.Here is the summary of the steps involved in the SSL handshake.
+	An SSL session always begins with an exchange of messages called
+	the SSL handshake.Here is the summary of the steps involved in
+	the SSL handshake.
 
-	1. The client sends a client hello message that lists the cryptographic capabilities of the client(sorted in client preference order), such as the version of SSL, the cipher suites supported by the client,and the data compression methods supported by the client.The message also contains a 28-byte random number.
+	1. The client sends a client hello message that lists the
+	cryptographic capabilities of the client(sorted in client
+	preference order), such as the version of SSL, the cipher suites
+	supported by the client,and the data compression methods supported
+	by the client.The message also contains a 28-byte random number.
 
-	2. The server responds with a server hello message that contains the cryptographic method(cipher suite) and the data compression method selected by the server,the session ID and another random number.The client and server must support at least one common cipher suite, else the handshake fails.The server generally chooses the strongest common cipher suite
+	2. The server responds with a server hello message that contains
+	the cryptographic method(cipher suite) and the data compression
+	method selected by the server,the session ID and another random
+	number.The client and server must support at least one common
+	cipher suite, else the handshake fails.The server generally
+	chooses the strongest common cipher suite
 
-	3. The server sends its digital certificate(server uses X.509 v3 digital certificates with SSL).If the server application requires a digital certificate for client authentication, the server sends a "digital certificate request" message. In the "digital certificate request" message, the server sends a list of the types of digital certificates supported and	the distinguished names of acceptable certificate authorities.
+	3. The server sends its digital certificate(server uses X.509
+	v3 digital certificates with SSL).If the server application
+	requires a digital certificate for client authentication,
+	the server sends a "digital certificate request" message. In
+	the "digital certificate request" message, the server sends a
+	list of the types of digital certificates supported and  the
+	distinguished names of acceptable certificate authorities.
 
-	4. The server sends a server "hello done" message and wait for response.
+	4. The server sends a server "hello done" message and wait
+	for response.
 
-	5. Upon receipt of the server "hello done" message, the client(the Web browser) verifies the validity of the server's digital certificate and checks that the server's hello parameters are acceptable.
+	5. Upon receipt of the server "hello done" message, the
+	client(the Web browser) verifies the validity of the server's
+	digital certificate and checks that the server's hello parameters
+	are acceptable.
 
-	6.The client sends a "client key exchange " message. The message contains the pre-master secret, a 46-byte random number used in the generation of the symmetric encryption keys and the message authentication code keys,encrypted with the public key of the server.
+	6.The client sends a "client key exchange " message. The message
+	contains the pre-master secret, a 46-byte random number used
+	in the generation of the symmetric encryption keys and the
+	message authentication code keys,encrypted with the public key
+	of the server.
 
-	7.The client uses a series of cryptograhic operations to convert the pre-master secret into a master secret, from which all the key material required for the encryption and message authentication is derived.Then the	client sends a "change cipher spec" message to make the server switch to the newly cipher suite. The next message sent by the client("the finished message") is the first message encrypted with the cipher method and keys
+	7.The client uses a series of cryptograhic operations to convert
+	the pre-master secret into a master secret, from which all the key
+	material required for the encryption and message authentication
+	is derived.Then the client sends a "change cipher spec" message
+	to make the server switch to the newly cipher suite. The next
+	message sent by the client("the finished message") is the first
+	message encrypted with the cipher method and keys
 
-	8. The server responds with a "change cipher spec" and the "finished" message of its own
+	8. The server responds with a "change cipher spec" and the
+	"finished" message of its own
 
-	9. The SSL handshake ends,and encrypted application data can be sent.
+	9. The SSL handshake ends,and encrypted application data can
+	be sent.
