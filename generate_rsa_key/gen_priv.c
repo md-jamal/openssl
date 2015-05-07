@@ -62,5 +62,8 @@ int main(int argc, char *argv[])
 	/*Printing it on the stdout*/
 	PEM_write_PrivateKey(stdout, root_pkey, NULL, NULL, 0, 0, NULL);
 
+	/*Free the allocated EVP_PKEY structure*/
+	EVP_PKEY_free(root_pkey);
+
 	return 0;
 }
