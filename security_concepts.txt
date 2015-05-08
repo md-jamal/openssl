@@ -214,5 +214,251 @@ Drawback of Public Key Cryptography:
 
 What is Truststore?
 
-	File that holds the various certificates of Certifying Authorities.
+	File that holds the various certificates of Certifying
+	Authorities.
+
+
+What is Certificate Chains?
+
+	Every certificate contains a subject field that identifies the
+	individual or group to which the certificate was issued.Every
+	certificate also contains an issuer field that identifies the
+	Certification Authority empowered to certify the identity of
+	the subject.
+
+	A certificate chain consists of all the certificates needed
+	to certify the subject identified by the end certificate.In
+	practice this includes the end certificate, the certificates
+	of intermediate CA's,and the certificate of a root CA trusted
+	by all parties in the chain.Every intermediate CA in the chain
+	holds a certificate issued by the CA one level above it in the
+	trust hierarchy. The root CA issues a certificate for itself.
+
+
+Functions of Cryptographic Algorithms:
+
+1. Generating Cryptographic Keys 2. Creating and Verifying Digital
+Signatures.  3. Encryption and Decryption 4. Establishing secret keys
+among communicating entities
+
+Classification of Cryptographic Algorithms:
+
+Based on the number of cryptographic keys they use it is classified into
+three types: 1.Hash Algorithms 2.Symmetric Key Algorithms 3.Asymmetric
+(Public Key) key Algorithms
+
+Hash Functions:
+
+	---> Does not require keys
+
+	---> Converts an arbitrary-length bit string into a small
+	fixed-length bit string called hash value or message digest
+
+	---> Features of hash function is that we cannot get the input
+	back from the hash value and no two different inputs will have
+	the same hash value
+
+	---> Secure Hash Algorithm (SHA) is one of the most widely used
+	hash function.
+
+	---> Four SHA hash functions present:SHA-1, SHA-256, SHA-384
+	and SHA-512
+
+	---> SHA-1 produces 160-bit long hash value.SHA-256,SHA-384
+	and SHA-512 produces 256-,384- and 512-bit long hash
+	values,respectively.
+
+	---> These hash functions differ primarily in the security
+	strength they provide.SHA-1 is the weakest.
+
+
+
+Symmetric Key Algorithms:
+
+	---> Two communicating parties use a single identical key for
+	both encryption and decryption
+
+	---> The symmetric key should be kept secret and should be known
+	to people authorized to access
+
+	---> Limitation: Difficult for communicating parties to
+			 exchange and agree upon secret keys( a process
+			 referred to as key establishment) over nonsecure
+			 and nonprivate networks
+
+	---> Advantage: Based on simple logical operations , such as
+			AND,OR,and XOR,and therefore these are highly
+			computational efficient
+
+	---> Commonly used for encryption and decryption.
+
+
+	---> Two familes of symmetric key Algorithms:
+			---> Advanced Encryption Standard(AES) --->
+			Triple Data Encryption Algorithm(TDEA)
+
+	---> Takes block of data as input for encryption and decryption
+	     and therefore commonly referred to as block ciphers.
+
+	---> Weakness: Same plaintext block will always encrypt to the
+	same cipher text whenever the same key is used.
+
+	---> AES consists of three block ciphers: AES-128,AES-256,AES-512.
+	     Each of these use the same block size of 128 bits as input
+	     but with 128-, 192-, and 256-bit keys respectively.
+
+	---> A symmetric key algorithm using k-bit long keys has been
+	     considered to have a security strength of k bits
+
+Public Key(Asymmetric Key)Algorithms:
+
+	---> Pair of distinct keys:Private Key and Public Key
+
+	---> Private key is kept secret and uses it to generate
+	     digital signatures, but public key is known to anyone and
+	     it is used to verify the signatures.
+
+	---> Both keys are mathematically linked,such that knowing
+	     the public key it is impossible to compute the private key.
+
+	---> Advantage: Anyone can send digitally signed messages
+  	     to others without the need for secure exchange of secret keys
+	     first.This is very much useful in highly time-sensitive
+	     authenticated vehicle-to-vehicle broadcast, in which
+	     broadcasting vehicle signs the message with its private
+	     keys and the other vehicle uses it public key to verify the
+	     digital signatures to authenticate the messages and verify
+	     message integrity.
+
+	---> Commonly used to create and verify digital signatures or
+	also be used for message encryption and decryption.
+
+	---> Limitation : More computationally intensive than symmetric key
+
+	---> Longer the length of the public and private key, stronger will be security
+
+
+
+Functions of a Digital Signature Algorithms:
+
+	1. Generating Private and Public Key
+	2. Creating Signatures
+	3. Verifying Signatures.
+
+	There are three algorithms:
+		---> RSA algorithm
+		---> Digital Signature Algorithm
+		---> Elliptical Curve DSA(ECDSA)
+
+ECDSA for Vehicle Safety Communications:
+
+Advantages:
+
+	---> ECDSA offers high level of security when compared to DSA,RSA for same 
+	     public key size.
+
+	---> Produces smaller signatures than RSA,hence lower message overhead while
+	     transporting
+
+Limitations:
+
+	---> Slower in signature verification.
+
+	---> It creates and verifies signatures only cannot be used for encryption
+	     and decryption, separate encryption and decryption algorithm is needed
+
+IEEE 1609.2 standard uses ECDSA for signature creation and verification while using a 
+combination of ECIES and symmetric key algorithms for encryption and decryption.
+
+
+Authentication and Integrity Verification using Digital Signatures:
+
+
+	A message originator first uses a cryptographic hash function to generate digest
+	of the message to be signed.This allows the signature to be generated over a small
+	digest of the message rather than the potentially large message itself, which helps
+	reduce signature creation time.
+
+
+	The message signer uses a digital signature algorithm and the message signer's private
+	key to sign the message digest to produce a digital signature that will be sent together
+	with the message to the receivers.
+
+		Each message receiver uses the message signer's public key and the corresponding
+	digital signature algorithm to verify the received signature.Successful signature 
+	verification means the signature was created by the private key that is associated with
+	the public key and the message has not been altered since it was signed.Hence both integrity
+	and authenticity is achieved.
+
+
+Diffie-Hellman key establishment protocol:
+
+
+	---> Allows to establish key over an insecure communication channel.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Public Key Certificates:
+
+	---> A public key certificate(digital certificate) is a digital object that 
+	     binds a public key with the identity or type of the public key's owner.
+
+	---> Conventional Certificate consists of
+
+		---> public key
+
+		---> identity of the owner of the public key
+
+		---> validity time period of the certificate
+
+		---> information identifying the certificate issuer
+	
+		---> certificate issuer's signature
+
+	---> Certificates are issued by the entities known as Certificate Authority(CA)
+
+	---> To verify the integrity of each and every certificate issued, he sign it 
+	     with private key and publishes its public key for anyone to verify its 
+	     signature.
+
+	---> Certificates are stored in a format:X.509 
+
+	---> Certificates usually have finite lifetimes.Hence owners of the certificate
+	     has to update the information on the certificates periodically.
+
+
+
+What happens when a message originator sends its certificate with signed message?
+
+	---> First the receiver verifies the certificate issuer's signature on
+	     the certificate using the public key of the CA
+
+	---> On success, it uses the public key on the certificate to verify the 
+	     signature on the received message.Successful verification tells the
+	     message receiver that the message was signed by the subject of the 
+	     certificate and integrity is not lost.
+
+Certification Revocation List:
+
+
+	CRL is a list of certificates that have been revoked(cancelled), and therefore
+	entities presenting those certificates should no longer be trusted.CRL is always
+	issued by the CA that issues the corresponding certificates.The CRL file is
+	itself signed by the CA to prevent tampering.
+
+
+
 
