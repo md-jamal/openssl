@@ -55,6 +55,10 @@ int add_ext(STACK_OF(X509_EXTENSION) *sk, int nid, char *value)
 {
 	
 	X509_EXTENSION *ex;
+	/*
+	 *	In OpenSSL fields are internally identified through an integer
+	 *	value known as the NID.Add the data based on NID
+	 */
 	ex = X509V3_EXT_conf_nid(NULL, NULL, nid, value);
 	if (!ex)
 		return 0;
@@ -63,21 +67,56 @@ int add_ext(STACK_OF(X509_EXTENSION) *sk, int nid, char *value)
 	return 1;	
 }
 
+/*
+ *	In order to create a certificate request:we have to create an X509_REQ object,
+ *	add a subject name and public key to it, add all the desired extensions, and
+ *	sign the request with the private key.
+ */
+
 
 X509_REQ * generate_Certificate(EVP_PKEY *pkey)
 {
 	
+	/*
+	 *	An X.509 certificate request is represented by an X509_REQ object 
+	 *	in OpenSSL.A certificate request's main component is the public
+	 *	half of the key pair. It also contains a subject Name field and
+	 *	additional X.509 attributes. In reality, the attributes are
+	 *	optional parameters for the request, but the subject name
+	 *	should always be present.
+	 */
 	X509_REQ *req;
+	/*
+	 *	The object type X509_NAME represents a certificate name.Specifically,
+	 *	a certificate request has only a subject name, while full certificates
+	 *	contain a subject name and an issuer name.
+	 */
 	X509_NAME *name = NULL;
 	STACK_OF(X509_EXTENSION) *ext = NULL;
 
+	/*
+	 *  Get a new X509_REQ structure
+	 */
 	if ((req = X509_REQ_new()) == NULL)
 		goto err;
 
-
+	/*
+	 *	Add the public key portion of the private key to the request.
+	 */
 	X509_REQ_set_pubkey(req, pkey);
 
 	name = X509_REQ_get_subject_name(req);
+
+	/*
+	 *	int X509_NAME_add_entry_by_txt(X509_NAME *name, const char *field, int type,
+	 *					const unsigned char *bytes, int len, int loc,
+	 *					int set);
+	 *
+	 *	 Its add a field whose name is identified by a string field .The field value
+	 *	 to be added is in bytes of length len.If len = -1 , it internally calculates
+	 *	 the length using strlen.The type of the field is defined by type which can be
+	 *	 either be a definition of the type of "bytes"(such as MBSTRING_ASC)
+	 */
 
 	X509_NAME_add_entry_by_txt(name, "C", MBSTRING_ASC, "IN", -1, -1, 0);
 
