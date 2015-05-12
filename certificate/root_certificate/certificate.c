@@ -128,7 +128,8 @@ X509 * generate_RootCertificate(EVP_PKEY *pkey)
 	X509_set_issuer_name(x509, name);
 
 	/*
-	 *	Set serial number
+	 *	Set serial number:A unique identifier assigned by CA which issued the
+	 *	certificate.It is unique within the CA.
 	 */
 
 	if (X509_NAME_digest(name, EVP_sha1(), name_hash, &len) == 1) {
