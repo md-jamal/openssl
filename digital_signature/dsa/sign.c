@@ -112,5 +112,8 @@ int main(int argc, char *argv[])
 		printf("Error in verification with dsa1\n");
 	}
 
+	DSAparams_print_fp(stdout, dsa1);
+
+
 	return 0;
 }
