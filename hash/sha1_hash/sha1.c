@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 
 	char input_data[128];
 
-	/*MD5 returns a 128 bit hash value*/
+	/*SHA-1 returns a 160 bit hash value*/
 	unsigned char hash_ret[20];
 
 	int i;

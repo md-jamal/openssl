@@ -51,6 +51,9 @@ EVP_PKEY * generate_PrivateKey(void)
 int main(int argc, char *argv[])
 {
 	
+
+	FILE *fp = fopen("hello.pem", "w");
+
 	/*EVP_PKEY is a structure used by openssl to store private keys*/
 	EVP_PKEY *root_pkey;
 
@@ -61,6 +64,9 @@ int main(int argc, char *argv[])
 
 	/*Printing it on the stdout*/
 	PEM_write_PrivateKey(stdout, root_pkey, NULL, NULL, 0, 0, NULL);
+
+	PEM_write_PrivateKey(fp, root_pkey, NULL, NULL, 0, 0, NULL);
+	
 
 	/*Free the allocated EVP_PKEY structure*/
 	EVP_PKEY_free(root_pkey);
