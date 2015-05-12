@@ -159,6 +159,8 @@ int main(int argc, char *argv[])
 
 	FILE *fp1 = fopen("ecdsa_pub.pem", "w");
 
+	FILE *fp2 = fopen("cert.csr", "w");
+
 	X509_REQ *x509;
 
 	/*EVP_PKEY is a structure used by openssl to store private keys*/
@@ -184,6 +186,8 @@ int main(int argc, char *argv[])
 	x509 = generate_Certificate(root_pkey);
 
 	X509_REQ_print_fp(stdout, x509);
+
+	X509_REQ_print_fp(fp2, x509);
 
 	/*Free the allocated EVP_PKEY structure*/
 	EVP_PKEY_free(root_pkey);
