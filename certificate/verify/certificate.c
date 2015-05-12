@@ -22,156 +22,46 @@ void initOpenSSL(void)
 }
 
 
-EVP_PKEY * generate_PrivateKey(void)
-{
-	
-	EVP_PKEY *pkey;
-	EC_KEY *eckey;
-
-	/*Allocates an empty EVP_PKEY structure*/
-	pkey = EVP_PKEY_new();
-
-	/*openssl ecparam -list_curves*/
-	eckey = EC_KEY_new_by_curve_name(NID_secp256k1);
-
-	if (!eckey) {
-		printf("error in new ec_key\n");
-		abort();
-	}
-
-	if (!EC_KEY_generate_key(eckey)) {
-		printf("Error: %ld\n", ERR_get_error());
-		return NULL;
-	}
-
-	/*Assigns eckey to pkey*/
-	if (EVP_PKEY_assign_EC_KEY(pkey, eckey) != 1) {
-		printf("Error:%ld\n", ERR_get_error());
-		return NULL;
-	}
-	return pkey;
-}
-
-int add_ext(STACK_OF(X509_EXTENSION) *sk, int nid, char *value)
-{
-	
-	X509_EXTENSION *ex;
-	/*
-	 *	In OpenSSL fields are internally identified through an integer
-	 *	value known as the NID.Add the data based on NID
-	 */
-	ex = X509V3_EXT_conf_nid(NULL, NULL, nid, value);
-	if (!ex)
-		return 0;
-	sk_X509_EXTENSION_push(sk, ex);
-	
-	return 1;	
-}
-
-/*
- *	In order to create a certificate request:we have to create an X509_REQ object,
- *	add a subject name and public key to it, add all the desired extensions, and
- *	sign the request with the private key.
- */
-
-
-X509_REQ * generate_Certificate(EVP_PKEY *pkey)
-{
-	
-	/*
-	 *	An X.509 certificate request is represented by an X509_REQ object 
-	 *	in OpenSSL.A certificate request's main component is the public
-	 *	half of the key pair. It also contains a subject Name field and
-	 *	additional X.509 attributes. In reality, the attributes are
-	 *	optional parameters for the request, but the subject name
-	 *	should always be present.
-	 */
-	X509_REQ *req;
-	/*
-	 *	The object type X509_NAME represents a certificate name.Specifically,
-	 *	a certificate request has only a subject name, while full certificates
-	 *	contain a subject name and an issuer name.
-	 */
-	X509_NAME *name = NULL;
-	STACK_OF(X509_EXTENSION) *ext = NULL;
-
-	/*
-	 *  Get a new X509_REQ structure
-	 */
-	if ((req = X509_REQ_new()) == NULL)
-		goto err;
-
-	/*
-	 *	Add the public key portion of the private key to the request.
-	 */
-	X509_REQ_set_pubkey(req, pkey);
-
-	name = X509_REQ_get_subject_name(req);
-
-	/*
-	 *	int X509_NAME_add_entry_by_txt(X509_NAME *name, const char *field, int type,
-	 *					const unsigned char *bytes, int len, int loc,
-	 *					int set);
-	 *
-	 *	 Its add a field whose name is identified by a string field .The field value
-	 *	 to be added is in bytes of length len.If len = -1 , it internally calculates
-	 *	 the length using strlen.The type of the field is defined by type which can be
-	 *	 either be a definition of the type of "bytes"(such as MBSTRING_ASC)
-	 */
-
-	X509_NAME_add_entry_by_txt(name, "C", MBSTRING_ASC, "IN", -1, -1, 0);
-
-	X509_NAME_add_entry_by_txt(name, "O", MBSTRING_ASC, "CDAC", -1, -1, 0);
-
-	X509_NAME_add_entry_by_txt(name, "ST", MBSTRING_ASC, "Telangana", -1, -1, 0);
-
-	X509_NAME_add_entry_by_txt(name, "L", MBSTRING_ASC, "Hyderabad", -1, -1, 0);
-
-
-	#ifdef EXTENSIONS_ENABLED
-	
-	exts = sk_X509_EXTENSION_new_null();
-
-	add_ext(exts, NID_key_usage, "critical,digitalSignature,keyEncipherment");
-
-	add_ext(exts, NID_subject_alt_name, "email:mjmohiuddin@cdac.in");
-
-	X509_REQ_add_extensions(req, exts);
-
-	sk_X509_EXTENSION_pop_free(exts, X509_EXTENSION_free);
-	
-	#endif
-
-	if (!X509_REQ_sign(req, pkey, EVP_sha1()))
-		goto err;
-
-	return req;
-
-err:
-	return NULL;
-
-}
-
-
 int verify(X509 *root_cert, X509 *user_cert)
 {
 	
 	const char *errstr ;
 
+	/*
+	 *	In order to verify the certificates presented by the peer, trusted CA
+	 *	certificates must be accessed.These CA certificates are made available
+	 *	via lookup methods,handle inside the X509_STORE.From the X509_STORE the
+	 *	X509_STORE_CTX used when verifying certificates is created.
+	 */
 	
 	X509_STORE *ctx = NULL;
 	
+	/*
+	 *	Structure required for X509_verify_cert
+	 */
 	X509_STORE_CTX *csc;
 
 	int certstatus;
 
 	ctx = X509_STORE_new();
 
+
 	X509_STORE_add_cert(ctx, root_cert);
 
+	/*
+	 *	Create the context to verify the certificate
+	 */
 	csc = X509_STORE_CTX_new();
 
+	/*
+	 *	Initialize the store to verify the certificate
+	 */
 	X509_STORE_CTX_init(csc, ctx, user_cert, NULL);
+
+	/*
+	 *	Attempts to discover and validate a certificate chain based on the
+	 *	parameters passed in csc.
+	 */
 
 	certstatus = X509_verify_cert(csc);
 
@@ -179,6 +69,10 @@ int verify(X509 *root_cert, X509 *user_cert)
 		errstr = X509_verify_cert_error_string(csc->error);
 		printf("Error in String:%s\n",errstr);
 	}
+
+	X509_STORE_CTX_cleanup(csc);
+	X509_STORE_CTX_free(csc);
+	X509_STORE_free(ctx);
 	return certstatus;
 }
 
@@ -193,7 +87,10 @@ int main(int argc, char *argv[])
 
 	initOpenSSL();
 
-
+	/*
+	 *	PEM_read_X509 converts the file pointer
+	 *	specified into X509 format
+	 */
 	requestor = PEM_read_X509(fp1, NULL, 0, NULL);
 
 	root = PEM_read_X509(fp2, NULL, 0, NULL);

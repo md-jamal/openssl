@@ -209,7 +209,7 @@ int main(int argc, char *argv[])
 
 	FILE *fp1 = fopen("ecdsa_pub.pem", "w");
 
-	FILE *fp2 = fopen("cert.pem", "w");
+	FILE *fp2 = fopen("root.pem", "w");
 
 	X509 *x509;
 

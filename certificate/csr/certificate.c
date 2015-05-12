@@ -159,7 +159,7 @@ int main(int argc, char *argv[])
 
 	FILE *fp1 = fopen("ecdsa_pub.pem", "w");
 
-	FILE *fp2 = fopen("cert.csr", "w");
+	FILE *fp2 = fopen("cert.pem", "w");
 
 	X509_REQ *x509;
 
@@ -187,7 +187,10 @@ int main(int argc, char *argv[])
 
 	X509_REQ_print_fp(stdout, x509);
 
-	X509_REQ_print_fp(fp2, x509);
+	/*It writes the x509 into PEM format in the file pointer specified
+	 * specified by the first argument
+	 */
+	PEM_write_X509_REQ(fp2, x509);
 
 	/*Free the allocated EVP_PKEY structure*/
 	EVP_PKEY_free(root_pkey);

@@ -287,6 +287,7 @@ int main(int argc, char *argv[])
 	FILE *fp2 = fopen("root.pem", "w");
 	
 	FILE *fp3 = fopen("cert.pem", "r");
+	ERR_print_errors_fp(stderr);
 
 	FILE *fp4 = fopen("cert_sign.pem", "w");
 
