@@ -10,6 +10,9 @@
 /*
  *	Certificate signing request is a message sent from an applicant
  *	to a certificate authority.
+ *
+ *	To view the certificate use the openssl tool
+ *	openssl req -in cert.csr -text -noout
  */
 
 void initOpenSSL(void)
@@ -159,7 +162,7 @@ int main(int argc, char *argv[])
 
 	FILE *fp1 = fopen("ecdsa_pub.pem", "w");
 
-	FILE *fp2 = fopen("cert.pem", "w");
+	FILE *fp2 = fopen("cert.csr", "w");
 
 	X509_REQ *x509;
 

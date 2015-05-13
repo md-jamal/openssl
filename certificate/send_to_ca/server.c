@@ -30,6 +30,7 @@ void *server_thread(void *arg)
 		pthread_exit(NULL);
 	}
 	fclose(fp);
+	free(arg);
 	system("openssl req -in cert.csr -text -noout");
 	pthread_exit(NULL);
 }
@@ -44,6 +45,7 @@ int main(int argc, char *argv[])
 	int fd, clientfd, ret;
 	struct sockaddr_in server_addr, client;
 	size_t size = sizeof(client);
+	int *sockid;
 	pthread_t tid;
 
 	memset(&server_addr, 0, sizeof(server_addr));
@@ -68,7 +70,9 @@ int main(int argc, char *argv[])
 	}
 	while(1) {
 		clientfd = accept(fd, (struct sockaddr *)&client, &size);
-		ret = pthread_create(&tid, NULL, server_thread, (void *)&clientfd);
+		sockid = (int *)malloc(sizeof(int));
+		*sockid = clientfd;
+		ret = pthread_create(&tid, NULL, server_thread, (void *)sockid);
 		if (ret != 0) {
 			perror("Unable to create thread\n");
 			break;

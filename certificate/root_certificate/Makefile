@@ -2,5 +2,5 @@ compile:
 	gcc certificate.c -o certificate -lssl -lcrypto
 
 clean:
-	rm certificate ecdsa.pem ecdsa_pub.pem cert.csr
+	rm certificate ecdsa.pem ecdsa_pub.pem root.pem
 
